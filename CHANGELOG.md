@@ -8,9 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.1] - 2025-12-16
 
 ### Added
+- Fix dimension mismatch bug
+- Fix CNOT bug
 - Fix documentation
 - Add CONTRIBUTING.md
-- Fix dimension mismatch bug
 - Fix tests
 - Fix linting
 
