@@ -32,9 +32,50 @@ class QuantumGate:
         Returns:
             New state vector after applying the gate
         """
-        # This is a simplified implementation
-        # In a real implementation, you'd need to handle multi-qubit gates properly
-        return self.matrix @ state_vector
+        n_qubits = int(np.log2(len(state_vector)))
+        
+        if self.num_qubits == 1 and len(target_qubits) == 1:
+            # Single-qubit gate
+            return self._apply_single_qubit_gate(state_vector, target_qubits[0], n_qubits)
+        elif self.num_qubits == 2 and len(target_qubits) == 2:
+            # Two-qubit gate (like CNOT)
+            return self._apply_two_qubit_gate(state_vector, target_qubits[0], target_qubits[1], n_qubits)
+        else:
+            raise ValueError(f"Gate requires {self.num_qubits} qubits, got {len(target_qubits)}")
+    
+    def _apply_single_qubit_gate(self, state_vector: np.ndarray, target_qubit: int, n_qubits: int) -> np.ndarray:
+        """Apply a single-qubit gate to the state vector."""
+        new_state = np.zeros_like(state_vector)
+        
+        for i in range(len(state_vector)):
+            # Extract the bit value of the target qubit from state index i
+            bit_val = (i >> target_qubit) & 1
+            
+            # Apply gate matrix
+            for new_bit_val in range(2):
+                # Flip the target qubit bit to new_bit_val
+                new_i = i ^ (bit_val << target_qubit) | (new_bit_val << target_qubit)
+                new_state[new_i] += self.matrix[new_bit_val, bit_val] * state_vector[i]
+        
+        return new_state
+    
+    def _apply_two_qubit_gate(self, state_vector: np.ndarray, control_qubit: int, target_qubit: int, n_qubits: int) -> np.ndarray:
+        """Apply a two-qubit gate to the state vector."""
+        new_state = np.copy(state_vector)
+        
+        for i in range(len(state_vector)):
+            # Extract control and target qubit values
+            control_bit = (i >> control_qubit) & 1
+            target_bit = (i >> target_qubit) & 1
+            
+            # For CNOT: only flip target if control is 1
+            if self.name == "CNOT" and control_bit == 1:
+                # Flip the target qubit
+                flipped_i = i ^ (1 << target_qubit)
+                new_state[flipped_i] = state_vector[i]
+                new_state[i] = 0
+        
+        return new_state
 
 
 # Common single-qubit gates
