@@ -7,7 +7,7 @@ from quantum_simulator import QuantumSimulator, QuantumCircuit, QuantumGate
 from quantum_simulator.gates import H_GATE, X_GATE, CNOT_GATE
 
 
-def main():
+def main() -> None:
     """Example quantum simulation."""
     print("Quantum Simulator Example")
     print("=" * 30)

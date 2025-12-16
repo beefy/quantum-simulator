@@ -20,7 +20,7 @@ class QuantumCircuit:
         self.num_qubits = num_qubits
         self.gates: List[Tuple[QuantumGate, List[int]]] = []
     
-    def add_gate(self, gate: QuantumGate, target_qubits: List[int]):
+    def add_gate(self, gate: QuantumGate, target_qubits: List[int]) -> None:
         """
         Add a gate to the circuit.
         

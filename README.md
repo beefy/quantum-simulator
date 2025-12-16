@@ -74,7 +74,13 @@ Full documentation is available at **[beefy.github.io/quantum-simulator](https:/
 
 3. **Run tests**:
    ```bash
-   pytest
+   pytest --cov=quantum_simulator --cov-report=xml --cov-report=term
+   ```
+
+4. **Run lint checks**:
+   ```bash
+   flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+   mypy src/
    ```
 
 4. **Build documentation**:

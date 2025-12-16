@@ -22,7 +22,7 @@ class QuantumSimulator:
         self.state_vector = np.zeros(self.num_states, dtype=complex)
         self.state_vector[0] = 1.0
     
-    def reset(self):
+    def reset(self) -> None:
         """Reset all qubits to |0> state."""
         self.state_vector = np.zeros(self.num_states, dtype=complex)
         self.state_vector[0] = 1.0
