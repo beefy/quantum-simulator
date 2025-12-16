@@ -54,8 +54,6 @@ Full documentation is available at **[beefy.github.io/quantum-simulator](https:/
 
 - [Installation Guide](https://beefy.github.io/quantum-simulator/getting-started/installation/)
 - [Quick Start](https://beefy.github.io/quantum-simulator/getting-started/quickstart/)
-- [API Reference](https://beefy.github.io/quantum-simulator/reference/)
-- [Examples](https://beefy.github.io/quantum-simulator/getting-started/examples/)
 
 ## Development
 

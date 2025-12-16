@@ -37,21 +37,10 @@ print(f"Measurement: {result0}, {result1}")
 
 - [Installation Guide](getting-started/installation.md) - How to install the package
 - [Quick Start](getting-started/quickstart.md) - Your first quantum simulation
-- [Examples](getting-started/examples.md) - More complex examples and use cases
-
-## User Guide
-
-- [Quantum Simulators](user-guide/simulators.md) - Understanding the simulation engine
-- [Quantum Gates](user-guide/gates.md) - Available gates and how to use them
-- [Quantum Circuits](user-guide/circuits.md) - Building and executing quantum circuits
-
-## API Reference
-
-Complete API documentation is available in the [API Reference](reference/) section.
 
 ## Development
 
-Want to contribute? Check out our [Contributing Guide](development/contributing.md) and [Publishing Guide](development/publishing.md).
+Want to contribute? Check out our [Contributing Guide](https://github.com/beefy/quantum-simulator/blob/main/CONTRIBUTING.md).
 
 ## License
 
