@@ -4,7 +4,7 @@
 [![PyPI version](https://badge.fury.io/py/quantum-simulator.svg)](https://badge.fury.io/py/quantum-simulator)
 [![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://beefy.github.io/quantum-simulator/)
 [![Python versions](https://img.shields.io/pypi/pyversions/quantum-simulator)](https://pypi.org/project/quantum-simulator/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
 A Python library for simulating quantum computers and quantum algorithms. This package provides an easy-to-use interface for quantum state simulation, gate operations, and circuit execution.
 
