@@ -82,23 +82,6 @@ Full documentation is available at **[beefy.github.io/quantum-simulator](https:/
    mkdocs serve
    ```
 
-### Project Structure
-
-```
-quantum-simulator/
-├── src/quantum_simulator/          # Main package
-│   ├── __init__.py                # Package initialization
-│   ├── simulator.py               # Quantum simulator implementation
-│   ├── gates.py                   # Quantum gates
-│   └── circuits.py                # Quantum circuits
-├── docs/                          # Documentation source
-├── tests/                         # Test suite
-├── .github/workflows/             # CI/CD workflows
-├── pyproject.toml                 # Package configuration
-├── mkdocs.yml                     # Documentation configuration
-└── README.md                      # This file
-```
-
 ## Publishing
 
 ### Publishing to PyPI
@@ -177,61 +160,3 @@ mkdocs serve
 
 # Open http://localhost:8000 in your browser
 ```
-
-### Setting Up Automated Publishing
-
-To enable automated publishing for your own fork:
-
-#### 1. PyPI API Token
-
-1. **Create PyPI account** at [pypi.org](https://pypi.org/)
-2. **Generate API token** at [pypi.org/manage/account/token/](https://pypi.org/manage/account/token/)
-3. **Add token to GitHub Secrets**:
-   - Go to repository Settings → Secrets and variables → Actions
-   - Add secret: `PYPI_API_TOKEN` with your API token value
-
-#### 2. GitHub Pages
-
-1. **Enable GitHub Pages**:
-   - Go to repository Settings → Pages
-   - Source: "GitHub Actions"
-
-2. **Documentation will be available** at: `https://yourusername.github.io/quantum-simulator/`
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guide](https://beefy.github.io/quantum-simulator/development/contributing/) for details.
-
-### Development Workflow
-
-1. **Fork** the repository
-2. **Create a feature branch**: `git checkout -b feature-name`
-3. **Make changes** and add tests
-4. **Run tests**: `pytest`
-5. **Submit a pull request**
-
-### Code Quality
-
-We use several tools to maintain code quality:
-
-- **pytest**: Testing framework
-- **black**: Code formatting
-- **flake8**: Linting
-- **mypy**: Type checking
-- **pre-commit**: Git hooks
-
-## Requirements
-
-- **Python**: 3.8 or higher
-- **NumPy**: 1.20.0 or higher
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Links
-
-- **PyPI Package**: [pypi.org/project/quantum-simulator](https://pypi.org/project/quantum-simulator/)
-- **Documentation**: [beefy.github.io/quantum-simulator](https://beefy.github.io/quantum-simulator/)
-- **Source Code**: [github.com/beefy/quantum-simulator](https://github.com/beefy/quantum-simulator)
-- **Issue Tracker**: [github.com/beefy/quantum-simulator/issues](https://github.com/beefy/quantum-simulator/issues)

@@ -14,3 +14,7 @@ mkdocs-autorefs
 mkdocs-gen-files
 mkdocs-literate-nav
 mkdocs-section-index
+
+# Publishing dependencies
+twine
+build
