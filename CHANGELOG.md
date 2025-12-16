@@ -1,0 +1,40 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- Initial project structure
+- Basic quantum simulation functionality
+- Documentation with MkDocs
+- CI/CD with GitHub Actions
+
+## [0.1.0] - 2025-12-16
+
+### Added
+- Initial release
+- `QuantumSimulator` class for quantum state simulation
+- Basic quantum gates (X, Y, Z, H, CNOT)
+- `QuantumCircuit` class for building quantum circuits
+- Quantum measurement functionality
+- Comprehensive documentation
+- Unit tests and type checking
+- PyPI packaging configuration
+- GitHub Actions for automated testing and publishing
+
+### Features
+- Support for multi-qubit quantum systems
+- State vector representation of quantum states
+- Gate application and circuit execution
+- Measurement with state collapse
+- Modern Python packaging with `pyproject.toml`
+- MkDocs documentation with Material theme
+- Automated PyPI publishing on releases
+- Automated documentation deployment to GitHub Pages
+
+[unreleased]: https://github.com/beefy/quantum-simulator/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/beefy/quantum-simulator/releases/tag/v0.1.0
