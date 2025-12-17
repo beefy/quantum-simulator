@@ -24,8 +24,11 @@ Where $c$ is the control qubit, $t$ is the target qubit, and $\oplus$ denotes XO
 ## Action on Basis States
 
 $$\text{CNOT}|00\rangle = |00\rangle$$
-$$\text{CNOT}|01\rangle = |01\rangle$$  
+
+$$\text{CNOT}|01\rangle = |01\rangle$$
+
 $$\text{CNOT}|10\rangle = |11\rangle$$
+
 $$\text{CNOT}|11\rangle = |10\rangle$$
 
 ### Summary
@@ -75,6 +78,7 @@ CNOT is the **primary entangling gate** in quantum computing. When applied to se
 ### Bell State Creation
 
 Starting from $|00\rangle$:
+
 $$|00\rangle \xrightarrow{H \otimes I} |+0\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |10\rangle)$$
 
 $$|+0\rangle \xrightarrow{\text{CNOT}} \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) = |\Phi^+\rangle$$
@@ -296,7 +300,9 @@ CNOT gates typically have **longer gate times** than single-qubit gates, making 
 ## Equivalences and Identities
 
 ### Commutation Relations
+
 $$[\text{CNOT}_{12}, I \otimes Z] = 0$$
+
 $$[\text{CNOT}_{12}, Z \otimes I] = 0$$
 
 CNOT commutes with Z operations on either qubit.
@@ -307,9 +313,13 @@ $$(H \otimes H) \text{CNOT}_{12} (H \otimes H) = \text{CNOT}_{21}$$
 Hadamards swap control and target roles.
 
 ### Pauli Propagation
+
 $$\text{CNOT} (X \otimes I) \text{CNOT}^\dagger = X \otimes X$$
+
 $$\text{CNOT} (I \otimes X) \text{CNOT}^\dagger = I \otimes X$$
+
 $$\text{CNOT} (Z \otimes I) \text{CNOT}^\dagger = Z \otimes I$$
+
 $$\text{CNOT} (I \otimes Z) \text{CNOT}^\dagger = Z \otimes Z$$
 
 ## Advanced Applications
