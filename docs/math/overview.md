@@ -36,6 +36,7 @@ Quantum computing relies heavily on linear algebra and complex numbers. This doc
 ## Further Reading
 
 For deeper mathematical foundations, consult:
+
 - Nielsen & Chuang: "Quantum Computation and Quantum Information"
 - Preskill: "Quantum Computing: An Introduction" (Caltech lecture notes)
 - Watrous: "The Theory of Quantum Information"

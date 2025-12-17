@@ -145,6 +145,7 @@ Enables **quantum interference** by creating coherent superpositions that can in
 ### Basis Rotation
 
 Rotates measurement basis from Z to X:
+
 - Z-measurement after H gives X-measurement
 - X-measurement after H gives Z-measurement
 
@@ -251,21 +252,25 @@ With standard Hadamard: $H = H(0, 0)$.
 Common physical realizations:
 
 ### Superconducting Qubits
+
 - **Microwave pulses** at specific frequencies
 - **Rabi oscillations** for π/2 + π rotations
 - Typical gate times: 10-50 ns
 
 ### Trapped Ions
+
 - **Laser pulses** for state manipulation
 - **Raman transitions** between internal states
 - Gate times: μs range
 
 ### Photonic Systems
+
 - **Beam splitters** (50/50 splitting)
 - **Wave plates** for polarization rotation
 - Near-instantaneous operations
 
 ### NMR
+
 - **RF pulses** at Larmor frequency
 - **Composite pulse sequences**
 - Gate times: ms range
@@ -308,6 +313,7 @@ Hadamard is a generator of the **Clifford group** along with S and CNOT gates.
 ### Stabilizer Formalism
 
 H transforms **stabilizer generators**:
+
 - X-stabilizers → Z-stabilizers  
 - Z-stabilizers → X-stabilizers
 

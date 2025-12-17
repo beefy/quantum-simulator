@@ -31,6 +31,7 @@ A **projective measurement** is described by projection operators $P_i$:
 $$P_i = |i\rangle\langle i|$$
 
 **Properties**:
+
 - $P_i^2 = P_i$ (idempotent)
 - $P_i P_j = 0$ for $i \neq j$ (orthogonal)
 - $\sum_i P_i = I$ (completeness)
@@ -58,6 +59,7 @@ $$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle \xrightarrow{\text{measure}} \
 ### Irreversibility
 
 Quantum measurement is **irreversible**:
+
 - Information about the original superposition is lost
 - Cannot reconstruct $|\psi\rangle$ from measurement outcome
 - Multiple measurements on identical states give statistics
@@ -127,12 +129,14 @@ $$(\Delta A)^2 = \langle A^2 \rangle - \langle A \rangle^2$$
 For $|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$:
 
 **Joint measurement probabilities**:
+
 - $P(00) = \frac{1}{2}$
 - $P(01) = 0$ 
 - $P(10) = 0$
 - $P(11) = \frac{1}{2}$
 
 **Individual qubit probabilities**:
+
 - $P(\text{qubit 0} = 0) = \frac{1}{2}$
 - $P(\text{qubit 0} = 1) = \frac{1}{2}$
 - $P(\text{qubit 1} = 0) = \frac{1}{2}$
@@ -184,6 +188,7 @@ print(f"Results: ({result_0}, {result_1})")  # Will be (0,0) or (1,1)
 ## Quantum Non-Demolition Measurements
 
 **Special measurements** that can be repeated without disturbing the state:
+
 - Measure eigenstate of the measurement operator
 - Subsequent measurements give same result
 - Used in quantum error correction
@@ -191,6 +196,7 @@ print(f"Results: ({result_0}, {result_1})")  # Will be (0,0) or (1,1)
 ## Deferred Measurement
 
 In quantum circuits, measurements can be **deferred** to the end:
+
 - Replace mid-circuit measurements with conditional operations
 - Equivalent to measuring at the end
 - Useful for theoretical analysis
