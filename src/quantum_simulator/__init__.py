@@ -4,7 +4,7 @@ Quantum Computer Simulator
 A Python library for simulating quantum computers and quantum algorithms.
 """
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __author__ = "Nathaniel Schultz"
 __email__ = "nate.schultz@outlook.com"
 

@@ -15,6 +15,45 @@ This guide covers how to publish the Quantum Simulator package to PyPI and deplo
 
 ### Step-by-Step Publishing
 
+#### Quick Release Workflow (Recommended)
+
+For most releases, use this simplified automated workflow:
+
+1. **Update version** in `src/quantum_simulator/__init__.py`:
+   ```python
+   __version__ = "0.2.0"  # Increment version number
+   ```
+
+2. **Update CHANGELOG.md** with release notes
+
+3. **Commit changes**:
+   ```bash
+   git add .
+   git commit -m "Bump version to 0.2.0"
+   git push
+   ```
+
+4. **Create and push a tag**:
+   ```bash
+   git tag v0.2.0
+   git push origin v0.2.0
+   ```
+
+5. **Create a GitHub Release**:
+   - Go to [GitHub Releases](https://github.com/beefy/quantum-simulator/releases)
+   - Click "Create a new release"
+   - Choose the tag you just created
+   - Add release notes
+   - Click "Publish release"
+
+6. **Automated Publishing**:
+   - GitHub Actions will automatically build and publish to PyPI
+   - Check the [Actions tab](https://github.com/beefy/quantum-simulator/actions) for progress
+
+#### Manual Publishing Process
+
+If you need to publish manually or want more control over the process:
+
 #### 1. Prepare the Release
 
 Update the version in `src/quantum_simulator/__init__.py`:
@@ -103,6 +142,22 @@ The workflow:
 1. **Builds** the documentation using MkDocs
 2. **Deploys** to GitHub Pages
 3. **Available** at: `https://beefy.github.io/quantum-simulator/`
+
+### Local Documentation Development
+
+For development and testing documentation locally:
+
+```bash
+# Install documentation dependencies
+pip install -e .[docs]
+
+# Serve documentation locally with auto-reload
+mkdocs serve
+
+# Open http://localhost:8000 in your browser
+```
+
+This allows you to preview documentation changes in real-time before deploying.
 
 ### Custom Domain (Optional)
 
