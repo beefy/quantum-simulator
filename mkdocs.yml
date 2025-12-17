@@ -62,16 +62,10 @@ nav:
   - Getting Started:
     - Installation: getting-started/installation.md
     - Quick Start: getting-started/quickstart.md
-    - Examples: getting-started/examples.md
-  - User Guide:
-    - Quantum Simulators: user-guide/simulators.md
-    - Quantum Gates: user-guide/gates.md
-    - Quantum Circuits: user-guide/circuits.md
-  - API Reference: reference/
   - Development:
     - Contributing: development/contributing.md
     - Publishing: development/publishing.md
-  - Changelog: changelog.md
+  - Changelog: development/changelog.md
 
 markdown_extensions:
   - pymdownx.highlight:
