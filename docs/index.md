@@ -8,7 +8,6 @@ Welcome to the **Quantum Simulator** documentation! This library provides a Pyth
 - 🚪 **Quantum Gates**: Implementation of common single and multi-qubit gates
 - 🔗 **Quantum Circuits**: Build and execute complex quantum circuits
 - 📊 **Measurement**: Simulate quantum measurements with proper state collapse
-- 🎯 **Easy to Use**: Clean, intuitive API for quantum programming
 
 ## Quick Example
 

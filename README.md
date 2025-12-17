@@ -14,8 +14,6 @@ A Python library for simulating quantum computers and quantum algorithms. This p
 - 🚪 **Quantum Gates**: Implementation of common single and multi-qubit gates (X, Y, Z, H, CNOT)
 - 🔗 **Quantum Circuits**: Build and execute complex quantum circuits
 - 📊 **Measurement**: Simulate quantum measurements with proper state collapse
-- 🎯 **Easy to Use**: Clean, intuitive API for quantum programming
-- 📚 **Well Documented**: Comprehensive documentation and examples
 
 ## Quick Start
 
