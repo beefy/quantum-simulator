@@ -64,6 +64,25 @@ nav:
     - Contributing: development/contributing.md
     - Publishing: development/publishing.md
   - Changelog: development/changelog.md
+  - Math:
+    - Math Overview: math/overview.md
+    - Supported Notation: math/supported-notation.md
+    - Quantum Mechanics:
+      - Qubits and States: math/quantum-mechanics/qubits_states.md
+      - Superposition: math/quantum-mechanics/superposition.md
+      - Entanglement: math/quantum-mechanics/entanglement.md
+      - Measurement: math/quantum-mechanics/measurement.md
+    - Gates:
+      - Single-Qubit Gates:
+        - X Gate: math/gates/x_gate.md
+        - Y Gate: math/gates/y_gate.md
+        - Z Gate: math/gates/z_gate.md
+        - H Gate: math/gates/h_gate.md
+      - Multi-Qubit Gates:
+        - CNOT Gate: math/gates/cnot_gate.md
+    - Circuits:
+      - Circuit Representation: math/circuits/representation.md
+      - Circuit Examples: math/circuits/examples.md
 
 markdown_extensions:
   - pymdownx.highlight:
