@@ -19,6 +19,7 @@ The four **Bell states** are maximally entangled two-qubit states:
 $$|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)$$
 
 **Properties**:
+
 - Equal superposition of $|00\rangle$ and $|11\rangle$
 - Measuring one qubit determines the other with 100% certainty
 - If first qubit is 0, second qubit is definitely 0
@@ -35,6 +36,7 @@ Similar correlations but with opposite relative phase.
 $$|\Psi^+\rangle = \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle)$$
 
 **Properties**:
+
 - If first qubit is 0, second qubit is definitely 1
 - If first qubit is 1, second qubit is definitely 0
 - Anti-correlated measurements
@@ -67,6 +69,7 @@ To create $|\Phi^+\rangle$ from $|00\rangle$:
 ### Non-Locality
 
 Entangled qubits exhibit **non-local correlations**:
+
 - Measuring one qubit instantly affects the other
 - No classical communication can explain these correlations
 - Violates Bell inequalities
@@ -74,6 +77,7 @@ Entangled qubits exhibit **non-local correlations**:
 ### Monogamy
 
 Quantum entanglement is **monogamous**:
+
 - If qubit A is maximally entangled with qubit B, it cannot be entangled with qubit C
 - Entanglement is a finite resource that must be shared
 
@@ -117,6 +121,7 @@ $$|W\rangle = \frac{1}{\sqrt{3}}(|001\rangle + |010\rangle + |100\rangle)$$
 ### Quantum Speedup
 
 Entanglement is essential for:
+
 - Quantum parallelism
 - Exponential speedup in quantum algorithms
 - Quantum error correction
@@ -125,6 +130,7 @@ Entanglement is essential for:
 ### Quantum Teleportation
 
 Entanglement enables quantum teleportation:
+
 - Use entangled pair as quantum channel
 - Transmit quantum state without physical transfer
 - Requires classical communication
@@ -179,6 +185,7 @@ circuit.execute(sim)
 ## Decoherence and Entanglement
 
 Entanglement is extremely fragile:
+
 - Environmental noise destroys entanglement
 - Decoherence rates scale with system size  
 - Quantum error correction protects entanglement

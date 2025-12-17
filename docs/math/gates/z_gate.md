@@ -95,6 +95,7 @@ Where $Z = P(\pi)$ with $\phi = \pi$.
 ### Z-measurement
 
 The Z gate corresponds to measurement in the computational basis:
+
 - Eigenvalue +1: measure $|0\rangle$
 - Eigenvalue -1: measure $|1\rangle$
 
@@ -111,6 +112,7 @@ This gives the **population difference** between $|0\rangle$ and $|1\rangle$.
 ### Phase Flip
 
 Z gate implements a **conditional phase flip**:
+
 - No effect on $|0\rangle$ states
 - Flips sign of $|1\rangle$ states
 
@@ -220,6 +222,7 @@ Many implementations achieve Z gates through **virtual Z gates** - software phas
 ## Virtual Z Gates
 
 In many quantum processors, Z gates are implemented as **virtual gates**:
+
 - No physical operation required
 - Phase tracking in software
 - Applied during subsequent physical gates

@@ -193,6 +193,7 @@ The Y gate can introduce errors through:
 - **Decoherence**: Loss of quantum coherence during gate operation
 
 These errors can be mitigated through:
+
 - Calibrated pulse sequences
 - Dynamical decoupling
 - Quantum error correction
