@@ -8,5 +8,14 @@ window.MathJax = {
   options: {
     ignoreHtmlClass: ".*|",
     processHtmlClass: "arithmatex"
+  },
+  loader: {
+    load: ['[tex]/mathtools', '[tex]/physics']
+  },
+  startup: {
+    ready: function() {
+      console.log('MathJax loaded successfully');
+      MathJax.startup.defaultReady();
+    }
   }
 };
