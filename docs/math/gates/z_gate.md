@@ -11,6 +11,7 @@ $$Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
 The Z gate applies a phase flip to the $|1\rangle$ state:
 
 $$Z|0\rangle = |0\rangle$$
+
 $$Z|1\rangle = -|1\rangle$$
 
 ## General Action
@@ -35,11 +36,13 @@ The Z gate corresponds to a **180° rotation around the Z-axis** of the Bloch sp
 ## Properties
 
 ### Involutory
+
 $$Z^2 = I$$
 
 The Z gate is its own inverse.
 
 ### Hermitian
+
 $$Z^\dagger = Z$$
 
 The Z gate is Hermitian.
@@ -49,7 +52,9 @@ The Z gate is Hermitian.
 **Eigenvalues**: $\lambda_1 = +1$, $\lambda_2 = -1$
 
 **Eigenvectors**:
+
 $$|0\rangle, \quad Z|0\rangle = +|0\rangle$$
+
 $$|1\rangle, \quad Z|1\rangle = -|1\rangle$$
 
 The computational basis states are eigenstates of Z.
@@ -61,11 +66,15 @@ The Z gate completes the Pauli group with:
 $$ZX = iY, \quad XY = iZ, \quad YZ = iX$$
 
 ### Anti-commutation
+
 $$\{Z,X\} = ZX + XZ = 0$$
+
 $$\{Z,Y\} = ZY + YZ = 0$$
 
 ### Commutation with Z-basis
+
 $$[Z, |0\rangle\langle 0|] = 0$$
+
 $$[Z, |1\rangle\langle 1|] = 0$$
 
 Z commutes with computational basis projectors.
@@ -119,6 +128,7 @@ Z gate implements a **conditional phase flip**:
 ### Quantum Interference
 
 Creates interference patterns in superposition:
+
 $$Z(|0\rangle + |1\rangle) = |0\rangle - |1\rangle$$
 
 ### Error Syndrome
@@ -186,6 +196,7 @@ $$CZ = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 
 ### Symmetry
 
 Unlike CNOT, controlled-Z is **symmetric**:
+
 $$CZ_{12} = CZ_{21}$$
 
 Both qubits can be considered as control or target.

@@ -32,6 +32,7 @@ $$\text{CNOT}|10\rangle = |11\rangle$$
 $$\text{CNOT}|11\rangle = |10\rangle$$
 
 ### Summary
+
 - **Control = 0**: Target qubit unchanged
 - **Control = 1**: Target qubit flipped (X gate applied)
 
@@ -58,11 +59,13 @@ The **filled circle** (●) represents the control qubit, and the **plus in circ
 ## Properties
 
 ### Involutory
+
 $$\text{CNOT}^2 = I$$
 
 CNOT is its own inverse: applying it twice returns to the original state.
 
 ### Hermitian
+
 $$\text{CNOT}^\dagger = \text{CNOT}$$
 
 ### Asymmetric
@@ -96,11 +99,13 @@ Creates entanglement whenever $\alpha, \beta \neq 0$.
 ## Universal Quantum Computing
 
 CNOT + single-qubit gates form a **universal gate set**:
+
 - Any quantum computation can be decomposed into CNOT and single-qubit rotations
 - CNOT provides the necessary two-qubit interactions
 - Single-qubit gates provide arbitrary single-qubit rotations
 
 ### Proof Sketch
+
 1. Any unitary can be decomposed using **KAK decomposition**
 2. Two-qubit unitaries require at most 3 CNOTs  
 3. Single-qubit gates can generate any $SU(2)$ rotation
