@@ -13,6 +13,7 @@ A qubit state $|\psi\rangle$ is represented as a linear combination of the compu
 $$|\psi\rangle = \alpha|0\rangle + \beta|1\rangle$$
 
 Where:
+
 - $\alpha, \beta \in \mathbb{C}$ are complex probability amplitudes
 - $|0\rangle, |1\rangle$ are the computational basis states
 - The normalization condition requires: $|\alpha|^2 + |\beta|^2 = 1$
@@ -34,6 +35,7 @@ Any single qubit state can be represented on the **Bloch sphere** using angles $
 $$|\psi\rangle = \cos\frac{\theta}{2}|0\rangle + e^{i\phi}\sin\frac{\theta}{2}|1\rangle$$
 
 Where:
+
 - $\theta \in [0, \pi]$ is the polar angle
 - $\phi \in [0, 2\pi)$ is the azimuthal angle
 
@@ -54,6 +56,7 @@ A general two-qubit state is:
 $$|\psi\rangle = \alpha_{00}|00\rangle + \alpha_{01}|01\rangle + \alpha_{10}|10\rangle + \alpha_{11}|11\rangle$$
 
 In vector form:
+
 $$|\psi\rangle = \begin{pmatrix} \alpha_{00} \\ \alpha_{01} \\ \alpha_{10} \\ \alpha_{11} \end{pmatrix}$$
 
 ### Computational Basis for Two Qubits
@@ -65,11 +68,13 @@ $$|00\rangle = \begin{pmatrix} 1 \\ 0 \\ 0 \\ 0 \end{pmatrix}, |01\rangle = \beg
 ### Normalization
 
 All quantum states must be normalized:
+
 $$\langle\psi|\psi\rangle = \sum_i |\alpha_i|^2 = 1$$
 
 ### Orthogonality
 
 Computational basis states are orthonormal:
+
 $$\langle i|j\rangle = \delta_{ij}$$
 
 Where $\delta_{ij}$ is the Kronecker delta.

@@ -11,6 +11,7 @@ $$Y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}$$
 The Y gate transforms computational basis states with a phase factor:
 
 $$Y|0\rangle = i|1\rangle$$
+
 $$Y|1\rangle = -i|0\rangle$$
 
 ## General Action
@@ -35,11 +36,13 @@ The Y gate corresponds to a **180° rotation around the Y-axis** of the Bloch sp
 ## Properties
 
 ### Involutory
+
 $$Y^2 = -I$$
 
 Applying Y twice gives negative identity (global phase of -1).
 
 ### Hermitian
+
 $$Y^\dagger = Y$$
 
 The Y gate is Hermitian.
@@ -49,6 +52,7 @@ The Y gate is Hermitian.
 **Eigenvalues**: $\lambda_1 = +1$, $\lambda_2 = -1$
 
 **Eigenvectors**:
+
 $$|+i\rangle = \frac{1}{\sqrt{2}}(|0\rangle + i|1\rangle), \quad Y|+i\rangle = +|+i\rangle$$
 
 $$|-i\rangle = \frac{1}{\sqrt{2}}(|0\rangle - i|1\rangle), \quad Y|-i\rangle = -|-i\rangle$$
@@ -60,7 +64,9 @@ The Y gate is part of the Pauli group with commutation relations:
 $$YZ = iX, \quad ZX = iY, \quad XY = iZ$$
 
 ### Anti-commutation
+
 $$\{Y,X\} = YX + XY = 0$$
+
 $$\{Y,Z\} = YZ + ZY = 0$$
 
 ## Circuit Symbol
@@ -83,6 +89,7 @@ $$Y = e^{-i\pi\sigma_y/2}$$
 ### Combined Operations
 
 Y gate performs both:
+
 1. **Bit flip**: $|0\rangle \leftrightarrow |1\rangle$ 
 2. **Phase modification**: Introduces $\pm i$ factors
 
@@ -95,7 +102,9 @@ Y gate performs both:
 ### State Preparation
 
 Prepare specific superposition states:
+
 $$Y|0\rangle = i|1\rangle$$
+
 $$Y|+\rangle = |-i\rangle$$
 
 ## Measurement Basis
@@ -103,6 +112,7 @@ $$Y|+\rangle = |-i\rangle$$
 The Y gate eigenstates form the **Y-measurement basis**:
 
 $$|+i\rangle = \frac{1}{\sqrt{2}}(|0\rangle + i|1\rangle)$$
+
 $$|-i\rangle = \frac{1}{\sqrt{2}}(|0\rangle - i|1\rangle)$$
 
 Measuring in this basis projects onto Y eigenstates.
@@ -160,7 +170,9 @@ print(sim.get_state_vector())  # ≈ [0.707, -0.707i]
 ### Conjugation Relations
 
 $$HYH = -Y$$
+
 $$XYX = -Y$$
+
 $$ZYZ = -Y$$
 
 ### Rotation Equivalence

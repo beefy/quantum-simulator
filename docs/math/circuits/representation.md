@@ -28,6 +28,7 @@ Represented as boxes or symbols on wires:
 ```
 
 Common single-qubit gate symbols:
+
 - **H**: Hadamard gate
 - **X**, **Y**, **Z**: Pauli gates
 - **S**: Phase gate (√Z)
@@ -161,6 +162,7 @@ C-U:     ●────
 ```
 
 ### Alternative Control Symbols
+
 - **●**: Control on |1⟩ state
 - **○**: Control on |0⟩ state (open circle)
 
@@ -184,7 +186,9 @@ C-U:     ●────
 ```
 
 Layer 1: H gate
+
 Layer 2: CNOT gate  
+
 Layer 3: Z gate
 
 ### Parallelization
@@ -214,6 +218,7 @@ $$|\psi_{\text{final}}\rangle = U_{\text{circuit}}|\psi_{\text{initial}}\rangle$
 
 ### Tensor Product Structure
 For parallel gates:
+
 $$U_{\text{parallel}} = U_1 \otimes U_2 \otimes \ldots \otimes U_n$$
 
 ## Classical Control

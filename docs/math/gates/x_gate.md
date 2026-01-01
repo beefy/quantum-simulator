@@ -11,6 +11,7 @@ $$X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$$
 The X gate flips computational basis states:
 
 $$X|0\rangle = |1\rangle$$
+
 $$X|1\rangle = |0\rangle$$
 
 ## General Action
@@ -47,6 +48,7 @@ The X gate is Hermitian, making it both unitary and self-adjoint.
 **Eigenvalues**: $\lambda_1 = +1$, $\lambda_2 = -1$
 
 **Eigenvectors**:
+
 $$|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle), \quad X|+\rangle = +|+\rangle$$
 
 $$|-\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle), \quad X|-\rangle = -|-\rangle$$
@@ -66,6 +68,7 @@ $$[X,Y] = XY - YX = 2iZ$$
 ### Anti-commutation
 
 $$\{X,Y\} = XY + YX = 0$$
+
 $$\{X,Z\} = XZ + ZX = 0$$
 
 ## Circuit Symbol
@@ -84,12 +87,14 @@ Or with the traditional NOT gate symbol:
 ### Classical NOT Operation
 
 For computational basis states, X gate performs classical NOT:
+
 - $|0\rangle \rightarrow |1\rangle$ (0 → 1)
 - $|1\rangle \rightarrow |0\rangle$ (1 → 0)
 
 ### State Preparation
 
 Prepare $|1\rangle$ state from initialized $|0\rangle$:
+
 $$X|0\rangle = |1\rangle$$
 
 ### Conditional Operations

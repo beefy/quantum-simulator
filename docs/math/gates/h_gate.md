@@ -31,11 +31,15 @@ $$= \frac{\alpha + \beta}{\sqrt{2}}|0\rangle + \frac{\alpha - \beta}{\sqrt{2}}|1
 The Hadamard gate transforms between computational and Hadamard bases:
 
 ### Computational to Hadamard
+
 $$|0\rangle \rightarrow |+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle)$$
+
 $$|1\rangle \rightarrow |-\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle)$$
 
 ### Hadamard to Computational
+
 $$|+\rangle \rightarrow |0\rangle$$
+
 $$|-\rangle \rightarrow |1\rangle$$
 
 ## Bloch Sphere Representation
@@ -43,25 +47,30 @@ $$|-\rangle \rightarrow |1\rangle$$
 The Hadamard gate corresponds to a **π rotation around the (X+Z)/√2 axis** of the Bloch sphere.
 
 Geometrically, it's equivalent to:
+
 1. π rotation around X-axis
 2. Followed by π/2 rotation around Y-axis
 
 Or alternatively:
+
 $$H = \frac{1}{\sqrt{2}}(X + Z)$$
 
 ## Properties
 
 ### Involutory
+
 $$H^2 = I$$
 
 The Hadamard gate is its own inverse: applying H twice returns to the original state.
 
 ### Hermitian
+
 $$H^\dagger = H$$
 
 The Hadamard gate is Hermitian (self-adjoint).
 
 ### Unitary
+
 $$H^\dagger H = H^2 = I$$
 
 ### Eigenvalues and Eigenvectors
@@ -69,6 +78,7 @@ $$H^\dagger H = H^2 = I$$
 **Eigenvalues**: $\lambda_1 = +1$, $\lambda_2 = -1$
 
 **Eigenvectors**:
+
 $$|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle), \quad H|+\rangle = +|+\rangle$$
 
 $$|-\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle), \quad H|-\rangle = -|-\rangle$$
@@ -86,7 +96,9 @@ The $\{|+\rangle, |-\rangle\}$ states are eigenstates of H.
 The Hadamard gate **conjugates** Pauli operators:
 
 $$HXH = Z$$
+
 $$HYH = -Y$$  
+
 $$HZH = X$$
 
 This property makes H crucial for **basis transformations** between X and Z measurements.
@@ -116,9 +128,11 @@ Where $x \cdot z = \sum_i x_i z_i$ is the bitwise dot product.
 ### X-basis Measurement
 
 Since H diagonalizes the X operator:
+
 $$H|+\rangle = |0\rangle, \quad H|-\rangle = |1\rangle$$
 
 Measuring after H gives **X-basis measurement**:
+
 - Result 0: state was $|+\rangle$
 - Result 1: state was $|-\rangle$
 
@@ -152,6 +166,7 @@ Rotates measurement basis from Z to X:
 ### Quantum Fourier Transform
 
 Hadamard is the **1-qubit QFT**:
+
 $$\text{QFT}_1 = H$$
 
 And forms the foundation of multi-qubit QFT circuits.

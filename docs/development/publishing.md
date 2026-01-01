@@ -74,6 +74,7 @@ python -m build
 ```
 
 This creates:
+
 - `dist/quantum_simulator-0.2.0.tar.gz` (source distribution)
 - `dist/quantum_simulator-0.2.0-py3-none-any.whl` (wheel)
 
@@ -139,6 +140,7 @@ mkdocs gh-deploy
 Documentation is automatically deployed on push to `main` branch.
 
 The workflow:
+
 1. **Builds** the documentation using MkDocs
 2. **Deploys** to GitHub Pages
 3. **Available** at: `https://beefy.github.io/quantum-simulator/`
@@ -186,6 +188,7 @@ Follow [Semantic Versioning](https://semver.org/):
 ### Pre-release Versions
 
 For development versions:
+
 - `1.0.0a1` (alpha)
 - `1.0.0b1` (beta) 
 - `1.0.0rc1` (release candidate)
@@ -205,14 +208,13 @@ For development versions:
 
 Before each release:
 
-- [ ] Update version number
-- [ ] Update CHANGELOG.md
-- [ ] Run tests: `pytest`
-- [ ] Build documentation: `mkdocs build`
-- [ ] Test package build: `python -m build`
-- [ ] Test installation: `pip install dist/*.whl`
-- [ ] Create git tag
-- [ ] Push to trigger automated release
+- Update version number
+- Update changelog.md
+- Run tests: `pytest`
+- Build documentation: `mkdocs build`
+- Test package build: `python -m build`
+- Test installation: `pip install dist/*.whl`
+- Create new tag and release in github after merging
 
 ## Troubleshooting
 
