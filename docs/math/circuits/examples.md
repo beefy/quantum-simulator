@@ -1,6 +1,54 @@
 # Circuit Examples
 
-This section demonstrates practical quantum circuit constructions for common quantum algorithms and operations. Each example includes circuit diagrams, mathematical descriptions, and implementation code using our quantum simulator.
+This section demonstrates practical quantum circuit constructions for common quantum algorithms and operations. Each exam### W States
+
+**W states** have equal superposition with exactly one qubit in |1⟩:
+
+#### 3-Qubit W State
+$$|W_3\rangle = \frac{1}{\sqrt{3}}(|001\rangle + |010\rangle + |100\rangle)$$
+
+**Circuit (one construction):**
+```
+|0⟩ ──[R_y(θ₁)]────●────────────
+|0⟩ ─────────────[C-R_y(θ₂)]──●──
+|0⟩ ──────────────────────────⊕──
+```
+
+Where $\theta_1 = 2\arccos(\sqrt{2/3})$ and $\theta_2 = 2\arccos(\sqrt{1/2})$.
+
+**Implementation:**
+```python
+from quantum_simulator import QuantumSimulator, QuantumCircuit
+from quantum_simulator.gates import RY_W1, CRY_W, CNOT_GATE
+import numpy as np
+
+# Create 3-qubit W state
+sim = QuantumSimulator(3)
+circuit = QuantumCircuit(3)
+
+# Apply rotation gates to create W state
+circuit.add_gate(RY_W1, [0])           # R_y(θ₁) on qubit 0
+circuit.add_gate(CRY_W, [0, 1])        # Controlled R_y(θ₂) on qubits 0→1
+circuit.add_gate(CNOT_GATE, [1, 2])    # CNOT: 1→2
+circuit.add_gate(CNOT_GATE, [0, 2])    # CNOT: 0→2
+
+circuit.execute(sim)
+print(sim.get_state_vector())  # [0, 0.577, 0.577, 0, 0.577, 0, 0, 0]
+
+# Alternatively, create W state directly
+w_state = np.zeros(8, dtype=complex)
+w_state[1] = 1/np.sqrt(3)  # |001⟩
+w_state[2] = 1/np.sqrt(3)  # |010⟩  
+w_state[4] = 1/np.sqrt(3)  # |100⟩
+sim.state_vector = w_state
+```
+
+**Properties:**
+
+- Each qubit has equal 1/3 probability of being measured as |1⟩
+- Exactly one qubit will be |1⟩ in any measurement
+- More robust to particle loss than GHZ states
+- Demonstrates symmetric multipartite entanglementrcuit diagrams, mathematical descriptions, and implementation code using our quantum simulator.
 
 ## Basic Quantum States
 
