@@ -7,6 +7,9 @@ repo_name: beefy/quantum-simulator
 repo_url: https://github.com/beefy/quantum-simulator
 edit_uri: edit/main/docs/
 
+# Ensure proper path handling for GitHub Pages
+use_directory_urls: true
+
 copyright: Copyright &copy; 2025 Nathaniel Schultz
 
 theme:
