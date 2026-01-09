@@ -77,8 +77,11 @@ nav:
         - Y Gate: math/gates/y_gate.md
         - Z Gate: math/gates/z_gate.md
         - H Gate: math/gates/h_gate.md
+        - RY Gate: math/gates/ry_gate.md
+        - RZ Gate: math/gates/rz_gate.md
       - Multi-Qubit Gates:
         - CNOT Gate: math/gates/cnot_gate.md
+        - Controlled RY Gate: math/gates/cry_gate.md
     - Circuits:
       - Circuit Representation: math/circuits/representation.md
       - Circuit Examples: math/circuits/examples.md
