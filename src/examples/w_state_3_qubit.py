@@ -77,7 +77,7 @@ def main() -> None:
     # Reset and create W state directly by setting amplitudes
     sim = QuantumSimulator(3)
     # W state: |W⟩ = (|001⟩ + |010⟩ + |100⟩)/√3
-    w_state = np.zeros(8, dtype=complex)
+    w_state: np.ndarray = np.zeros(8, dtype=complex)
     w_state[1] = 1/np.sqrt(3)  # |001⟩
     w_state[2] = 1/np.sqrt(3)  # |010⟩  
     w_state[4] = 1/np.sqrt(3)  # |100⟩
@@ -138,7 +138,7 @@ def demonstrate_w_vs_ghz() -> None:
         sim = QuantumSimulator(3)
         
         # Set W state directly: |W⟩ = (|001⟩ + |010⟩ + |100⟩)/√3
-        w_state = np.zeros(8, dtype=complex)
+        w_state: np.ndarray = np.zeros(8, dtype=complex)
         w_state[1] = 1/np.sqrt(3)  # |001⟩
         w_state[2] = 1/np.sqrt(3)  # |010⟩  
         w_state[4] = 1/np.sqrt(3)  # |100⟩

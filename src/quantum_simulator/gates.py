@@ -88,7 +88,7 @@ Z_GATE = QuantumGate("Z", np.array([[1, 0], [0, -1]], dtype=complex))
 H_GATE = QuantumGate("H", np.array([[1, 1], [1, -1]], dtype=complex) / np.sqrt(2))
 
 # Rotation gates
-def RY(theta):
+def RY(theta: float) -> QuantumGate:
     """
     Create a rotation gate around Y-axis by angle theta.
     
@@ -106,7 +106,7 @@ def RY(theta):
     ], dtype=complex)
     return QuantumGate(f"RY({theta:.3f})", matrix)
 
-def RZ(theta):
+def RZ(theta: float) -> QuantumGate:
     """
     Create a rotation gate around Z-axis by angle theta.
     
@@ -142,7 +142,7 @@ CNOT_GATE = QuantumGate("CNOT", np.array([
 ], dtype=complex))
 
 # Controlled rotation gates for W state
-def controlled_RY(theta):
+def controlled_RY(theta: float) -> QuantumGate:
     """
     Create a controlled rotation gate around Y-axis.
     
