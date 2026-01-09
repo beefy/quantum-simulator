@@ -87,6 +87,52 @@ Y_GATE = QuantumGate("Y", np.array([[0, -1j], [1j, 0]], dtype=complex))
 Z_GATE = QuantumGate("Z", np.array([[1, 0], [0, -1]], dtype=complex))
 H_GATE = QuantumGate("H", np.array([[1, 1], [1, -1]], dtype=complex) / np.sqrt(2))
 
+# Rotation gates
+def RY(theta):
+    """
+    Create a rotation gate around Y-axis by angle theta.
+    
+    Args:
+        theta: Rotation angle in radians
+        
+    Returns:
+        QuantumGate: RY rotation gate
+    """
+    cos_half = np.cos(theta / 2)
+    sin_half = np.sin(theta / 2)
+    matrix = np.array([
+        [cos_half, -sin_half],
+        [sin_half, cos_half]
+    ], dtype=complex)
+    return QuantumGate(f"RY({theta:.3f})", matrix)
+
+def RZ(theta):
+    """
+    Create a rotation gate around Z-axis by angle theta.
+    
+    Args:
+        theta: Rotation angle in radians
+        
+    Returns:
+        QuantumGate: RZ rotation gate
+    """
+    exp_neg = np.exp(-1j * theta / 2)
+    exp_pos = np.exp(1j * theta / 2)
+    matrix = np.array([
+        [exp_neg, 0],
+        [0, exp_pos]
+    ], dtype=complex)
+    return QuantumGate(f"RZ({theta:.3f})", matrix)
+
+# Specific angles for W state construction
+# RY gate with theta = arccos(sqrt(2/3)) ≈ 0.9553 radians
+W_STATE_ANGLE_1 = np.arccos(np.sqrt(2/3))  # ~0.9553 radians
+RY_W1 = RY(W_STATE_ANGLE_1)
+
+# RY gate with theta = arccos(sqrt(1/2)) = π/4
+W_STATE_ANGLE_2 = np.arccos(np.sqrt(1/2))  # π/4 radians
+RY_W2 = RY(W_STATE_ANGLE_2)
+
 # Two-qubit gates
 CNOT_GATE = QuantumGate("CNOT", np.array([
     [1, 0, 0, 0],
@@ -94,3 +140,30 @@ CNOT_GATE = QuantumGate("CNOT", np.array([
     [0, 0, 0, 1],
     [0, 0, 1, 0]
 ], dtype=complex))
+
+# Controlled rotation gates for W state
+def controlled_RY(theta):
+    """
+    Create a controlled rotation gate around Y-axis.
+    
+    Args:
+        theta: Rotation angle in radians
+        
+    Returns:
+        QuantumGate: Controlled RY gate (2-qubit gate)
+    """
+    cos_half = np.cos(theta / 2)
+    sin_half = np.sin(theta / 2)
+    
+    # 4x4 matrix for controlled gate: I ⊗ |0⟩⟨0| + RY(θ) ⊗ |1⟩⟨1|
+    matrix = np.array([
+        [1, 0, 0, 0],           # |00⟩ → |00⟩
+        [0, 1, 0, 0],           # |01⟩ → |01⟩
+        [0, 0, cos_half, -sin_half],  # |10⟩ → cos(θ/2)|10⟩ - sin(θ/2)|11⟩
+        [0, 0, sin_half, cos_half]    # |11⟩ → sin(θ/2)|10⟩ + cos(θ/2)|11⟩
+    ], dtype=complex)
+    
+    return QuantumGate(f"CRY({theta:.3f})", matrix)
+
+# Specific controlled rotation for W state
+CRY_W = controlled_RY(W_STATE_ANGLE_2)
