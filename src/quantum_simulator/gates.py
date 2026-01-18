@@ -115,58 +115,71 @@ class QuantumGate:
         
         return new_state
 
-    def _apply_three_qubit_gate(self, state_vector: np.ndarray, control1_qubit: int, control2_qubit: int, target_qubit: int, n_qubits: int) -> np.ndarray:
-        """Apply a three-qubit gate to the state vector."""
+    def _apply_three_qubit_gate(self, state_vector: np.ndarray, qubit0: int, qubit1: int, qubit2: int, n_qubits: int) -> np.ndarray:
+        """
+        Apply a three-qubit gate to the state vector.
+        
+        Args:
+            state_vector: Current state vector
+            qubit0: First qubit (corresponds to bit 0 in matrix indexing)
+            qubit1: Second qubit (corresponds to bit 1 in matrix indexing) 
+            qubit2: Third qubit (corresponds to bit 2 in matrix indexing)
+            n_qubits: Total number of qubits
+            
+        Note: For Toffoli gate with qubits [0, 1, 2]:
+        - qubit0 and qubit1 are controls
+        - qubit2 is target
+        """
         new_state = np.zeros_like(state_vector)
         
         # Special handling for common three-qubit gates
         if self.name == "Toffoli" or self.name == "CCX":
             for i in range(len(state_vector)):
-                # Extract control and target qubit values
-                control1_bit = (i >> control1_qubit) & 1
-                control2_bit = (i >> control2_qubit) & 1
-                target_bit = (i >> target_qubit) & 1
+                # Extract qubit values
+                bit0 = (i >> qubit0) & 1
+                bit1 = (i >> qubit1) & 1
+                bit2 = (i >> qubit2) & 1
                 
-                # For Toffoli: flip target if both controls are 1
-                if control1_bit == 1 and control2_bit == 1:
-                    # Flip the target qubit
-                    flipped_i = i ^ (1 << target_qubit)
+                # For Toffoli: flip qubit2 if both qubit0 and qubit1 are 1
+                if bit0 == 1 and bit1 == 1:
+                    # Flip qubit2
+                    flipped_i = i ^ (1 << qubit2)
                     new_state[flipped_i] += state_vector[i]
                 else:
                     # At least one control is 0, no change
                     new_state[i] += state_vector[i]
         elif self.name == "CCZ":
             for i in range(len(state_vector)):
-                # Extract control and target qubit values
-                control1_bit = (i >> control1_qubit) & 1
-                control2_bit = (i >> control2_qubit) & 1
-                target_bit = (i >> target_qubit) & 1
+                # Extract qubit values
+                bit0 = (i >> qubit0) & 1
+                bit1 = (i >> qubit1) & 1
+                bit2 = (i >> qubit2) & 1
                 
                 # For CCZ: flip phase if all three qubits are 1
-                if control1_bit == 1 and control2_bit == 1 and target_bit == 1:
+                if bit0 == 1 and bit1 == 1 and bit2 == 1:
                     new_state[i] -= state_vector[i]  # Phase flip
                 else:
                     new_state[i] += state_vector[i]  # No change
         else:
             # General three-qubit gate implementation (8x8 matrix)
             for i in range(len(state_vector)):
-                # Extract all three qubit values
-                control1_bit = (i >> control1_qubit) & 1
-                control2_bit = (i >> control2_qubit) & 1
-                target_bit = (i >> target_qubit) & 1
+                # Extract qubit values
+                bit0 = (i >> qubit0) & 1
+                bit1 = (i >> qubit1) & 1
+                bit2 = (i >> qubit2) & 1
                 
-                # Map to 3-qubit basis state
-                input_basis_state = (control1_bit << 2) | (control2_bit << 1) | target_bit
+                # Map to 3-qubit basis state (qubit2 is MSB, qubit0 is LSB for standard ordering)
+                input_basis_state = (bit2 << 2) | (bit1 << 1) | bit0
                 
                 # Apply the 8x8 matrix
-                for output_control1 in range(2):
-                    for output_control2 in range(2):
-                        for output_target in range(2):
-                            output_basis_state = (output_control1 << 2) | (output_control2 << 1) | output_target
+                for output_bit2 in range(2):
+                    for output_bit1 in range(2):
+                        for output_bit0 in range(2):
+                            output_basis_state = (output_bit2 << 2) | (output_bit1 << 1) | output_bit0
                             
                             # Calculate the new state index
-                            new_i = (i ^ (control1_bit << control1_qubit) ^ (control2_bit << control2_qubit) ^ (target_bit << target_qubit) |
-                                   (output_control1 << control1_qubit) | (output_control2 << control2_qubit) | (output_target << target_qubit))
+                            new_i = (i ^ (bit0 << qubit0) ^ (bit1 << qubit1) ^ (bit2 << qubit2) |
+                                   (output_bit0 << qubit0) | (output_bit1 << qubit1) | (output_bit2 << qubit2))
                             
                             # Add contribution from the matrix element
                             new_state[new_i] += self.matrix[output_basis_state, input_basis_state] * state_vector[i]

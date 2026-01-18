@@ -989,15 +989,17 @@ class TestToffoliGate:
     
     def test_toffoli_action_on_basis_states(self):
         """Test Toffoli gate action on all computational basis states."""
+        # Note: simulator uses |q2 q1 q0⟩ notation where q0 is LSB
+        # Toffoli([0,1,2]) means controls on qubits 0,1 and target on qubit 2
         test_cases = [
-            ([0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0]),  # |000⟩ → |000⟩
-            ([0, 0, 1], [0, 1, 0, 0, 0, 0, 0, 0]),  # |001⟩ → |001⟩
-            ([0, 1, 0], [0, 0, 1, 0, 0, 0, 0, 0]),  # |010⟩ → |010⟩
-            ([0, 1, 1], [0, 0, 0, 1, 0, 0, 0, 0]),  # |011⟩ → |011⟩
-            ([1, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0]),  # |100⟩ → |100⟩
-            ([1, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0]),  # |101⟩ → |101⟩
-            ([1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1]),  # |110⟩ → |111⟩ (flip target)
-            ([1, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0])   # |111⟩ → |110⟩ (flip target)
+            ([0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0]),  # |000⟩ → |000⟩ (no controls active)
+            ([1, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0]),  # |001⟩ → |001⟩ (only one control active)
+            ([0, 1, 0], [0, 0, 1, 0, 0, 0, 0, 0]),  # |010⟩ → |010⟩ (only one control active)
+            ([1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1]),  # |011⟩ → |111⟩ (both controls active, flip target 0→1)
+            ([0, 0, 1], [0, 0, 0, 0, 1, 0, 0, 0]),  # |100⟩ → |100⟩ (no controls active)
+            ([1, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0]),  # |101⟩ → |101⟩ (only one control active)
+            ([0, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0]),  # |110⟩ → |110⟩ (only one control active)
+            ([1, 1, 1], [0, 0, 0, 1, 0, 0, 0, 0])   # |111⟩ → |011⟩ (both controls active, flip target 1→0)
         ]
         
         for input_state, expected_output in test_cases:
@@ -1020,7 +1022,7 @@ class TestToffoliGate:
         """Test Toffoli implements conditional AND logic."""
         # Test that target is flipped only when both controls are |1⟩
         sim = QuantumSimulator(3)
-        
+
         # Case 1: Both controls |1⟩, target |0⟩ → should flip to |1⟩
         circuit = QuantumCircuit(3)
         circuit.add_gate(X_GATE, [0])  # Control1 = |1⟩
@@ -1028,18 +1030,17 @@ class TestToffoliGate:
         # Target = |0⟩ (default)
         circuit.add_gate(TOFFOLI_GATE, [0, 1, 2])
         circuit.execute(sim)
-        
+
         # Should be in |111⟩
         assert sim.get_state_vector()[7] == pytest.approx(1.0)
-        
-        # Case 2: Apply Toffoli again → should flip back to |110⟩
+
+        # Case 2: Apply Toffoli again → should flip back to |011⟩
+        circuit = QuantumCircuit(3)  # Create new circuit
         circuit.add_gate(TOFFOLI_GATE, [0, 1, 2])
         circuit.execute(sim)
-        
-        # Should be back in |110⟩
-        assert sim.get_state_vector()[6] == pytest.approx(1.0)
 
-
+        # Should be back in |011⟩ (controls still |1⟩, target flipped from |1⟩ to |0⟩)
+        assert sim.get_state_vector()[3] == pytest.approx(1.0)
 class TestCCZGate:
     """Test CCZ (Controlled-Controlled-Z) gate."""
     
