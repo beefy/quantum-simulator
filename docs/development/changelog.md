@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CRZ gate
 - CZ gate
 - Toffoli gate
+- Grover's algorithm example
+- Additional testing
 
 ## [0.1.6](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.6) - 2026-01-09
 
