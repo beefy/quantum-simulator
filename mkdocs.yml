@@ -80,6 +80,7 @@ nav:
         - Y Gate: math/gates/y_gate.md
         - Z Gate: math/gates/z_gate.md
         - H Gate: math/gates/h_gate.md
+        - RX Gate: math/gates/rx_gate.md
         - RY Gate: math/gates/ry_gate.md
         - RZ Gate: math/gates/rz_gate.md
       - Multi-Qubit Gates:

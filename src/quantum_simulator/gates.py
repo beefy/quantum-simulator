@@ -88,6 +88,24 @@ Z_GATE = QuantumGate("Z", np.array([[1, 0], [0, -1]], dtype=complex))
 H_GATE = QuantumGate("H", np.array([[1, 1], [1, -1]], dtype=complex) / np.sqrt(2))
 
 # Rotation gates
+def RX(theta: float) -> QuantumGate:
+    """
+    Create a rotation gate around X-axis by angle theta.
+    
+    Args:
+        theta: Rotation angle in radians
+        
+    Returns:
+        QuantumGate: RX rotation gate
+    """
+    cos_half = np.cos(theta / 2)
+    sin_half = np.sin(theta / 2)
+    matrix = np.array([
+        [cos_half, -1j * sin_half],
+        [-1j * sin_half, cos_half]
+    ], dtype=complex)
+    return QuantumGate(f"RX({theta:.3f})", matrix)
+
 def RY(theta: float) -> QuantumGate:
     """
     Create a rotation gate around Y-axis by angle theta.
