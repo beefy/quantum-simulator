@@ -181,6 +181,29 @@ CNOT_GATE = QuantumGate("CNOT", np.array([
 ], dtype=complex))
 
 # Controlled rotation gates for W state
+def controlled_RX(theta: float) -> QuantumGate:
+    """
+    Create a controlled rotation gate around X-axis.
+    
+    Args:
+        theta: Rotation angle in radians
+        
+    Returns:
+        QuantumGate: Controlled RX gate (2-qubit gate)
+    """
+    cos_half = np.cos(theta / 2)
+    sin_half = np.sin(theta / 2)
+    
+    # 4x4 matrix for controlled gate: I ⊗ |0⟩⟨0| + RX(θ) ⊗ |1⟩⟨1|
+    matrix = np.array([
+        [1, 0, 0, 0],                    # |00⟩ → |00⟩
+        [0, 1, 0, 0],                    # |01⟩ → |01⟩
+        [0, 0, cos_half, -1j * sin_half], # |10⟩ → cos(θ/2)|10⟩ - i·sin(θ/2)|11⟩
+        [0, 0, -1j * sin_half, cos_half]  # |11⟩ → -i·sin(θ/2)|10⟩ + cos(θ/2)|11⟩
+    ], dtype=complex)
+    
+    return QuantumGate(f"CRX({theta:.3f})", matrix)
+
 def controlled_RY(theta: float) -> QuantumGate:
     """
     Create a controlled rotation gate around Y-axis.
@@ -203,6 +226,29 @@ def controlled_RY(theta: float) -> QuantumGate:
     ], dtype=complex)
     
     return QuantumGate(f"CRY({theta:.3f})", matrix)
+
+def controlled_RZ(theta: float) -> QuantumGate:
+    """
+    Create a controlled rotation gate around Z-axis.
+    
+    Args:
+        theta: Rotation angle in radians
+        
+    Returns:
+        QuantumGate: Controlled RZ gate (2-qubit gate)
+    """
+    exp_neg = np.exp(-1j * theta / 2)
+    exp_pos = np.exp(1j * theta / 2)
+    
+    # 4x4 matrix for controlled gate: I ⊗ |0⟩⟨0| + RZ(θ) ⊗ |1⟩⟨1|
+    matrix = np.array([
+        [1, 0, 0, 0],       # |00⟩ → |00⟩
+        [0, 1, 0, 0],       # |01⟩ → |01⟩
+        [0, 0, exp_neg, 0], # |10⟩ → e^(-iθ/2)|10⟩
+        [0, 0, 0, exp_pos]  # |11⟩ → e^(iθ/2)|11⟩
+    ], dtype=complex)
+    
+    return QuantumGate(f"CRZ({theta:.3f})", matrix)
 
 # Specific controlled rotation for W state
 CRY_W = controlled_RY(W_STATE_ANGLE_2)
