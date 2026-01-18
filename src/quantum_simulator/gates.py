@@ -63,13 +63,14 @@ class QuantumGate:
         """Apply a two-qubit gate to the state vector."""
         new_state = np.zeros_like(state_vector)
         
-        for i in range(len(state_vector)):
-            # Extract control and target qubit values
-            control_bit = (i >> control_qubit) & 1
-            target_bit = (i >> target_qubit) & 1
-            
-            # For CNOT: flip target if control is 1, otherwise leave unchanged
-            if self.name == "CNOT":
+        # Special handling for CNOT (for backward compatibility)
+        if self.name == "CNOT":
+            for i in range(len(state_vector)):
+                # Extract control and target qubit values
+                control_bit = (i >> control_qubit) & 1
+                target_bit = (i >> target_qubit) & 1
+                
+                # For CNOT: flip target if control is 1, otherwise leave unchanged
                 if control_bit == 1:
                     # Flip the target qubit
                     flipped_i = i ^ (1 << target_qubit)
@@ -77,6 +78,26 @@ class QuantumGate:
                 else:
                     # Control is 0, no change
                     new_state[i] += state_vector[i]
+        else:
+            # General two-qubit gate implementation
+            for i in range(len(state_vector)):
+                # Extract control and target qubit values
+                control_bit = (i >> control_qubit) & 1
+                target_bit = (i >> target_qubit) & 1
+                
+                # Map to 2x2 basis: |control_bit, target_bit⟩
+                input_basis_state = (control_bit << 1) | target_bit
+                
+                # Apply the 4x4 matrix to all relevant basis combinations
+                for output_control in range(2):
+                    for output_target in range(2):
+                        output_basis_state = (output_control << 1) | output_target
+                        
+                        # Calculate the new state index
+                        new_i = i ^ (control_bit << control_qubit) ^ (target_bit << target_qubit) | (output_control << control_qubit) | (output_target << target_qubit)
+                        
+                        # Add contribution from the matrix element
+                        new_state[new_i] += self.matrix[output_basis_state, input_basis_state] * state_vector[i]
         
         return new_state
 
