@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - RX gate
 - CRX gate
 - CRZ gate
+- CZ gate
+- Toffoli gate
 
 ## [0.1.6](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.6) - 2026-01-09
 

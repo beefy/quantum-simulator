@@ -38,8 +38,11 @@ class QuantumGate:
             # Single-qubit gate
             return self._apply_single_qubit_gate(state_vector, target_qubits[0], n_qubits)
         elif self.num_qubits == 2 and len(target_qubits) == 2:
-            # Two-qubit gate (like CNOT)
+            # Two-qubit gate (like CNOT, CZ)
             return self._apply_two_qubit_gate(state_vector, target_qubits[0], target_qubits[1], n_qubits)
+        elif self.num_qubits == 3 and len(target_qubits) == 3:
+            # Three-qubit gate (like Toffoli, CCZ)
+            return self._apply_three_qubit_gate(state_vector, target_qubits[0], target_qubits[1], target_qubits[2], n_qubits)
         else:
             raise ValueError(f"Gate requires {self.num_qubits} qubits, got {len(target_qubits)}")
     
@@ -63,7 +66,7 @@ class QuantumGate:
         """Apply a two-qubit gate to the state vector."""
         new_state = np.zeros_like(state_vector)
         
-        # Special handling for CNOT (for backward compatibility)
+        # Special handling for CNOT and CZ (for backward compatibility and efficiency)
         if self.name == "CNOT":
             for i in range(len(state_vector)):
                 # Extract control and target qubit values
@@ -78,6 +81,17 @@ class QuantumGate:
                 else:
                     # Control is 0, no change
                     new_state[i] += state_vector[i]
+        elif self.name == "CZ":
+            for i in range(len(state_vector)):
+                # Extract control and target qubit values
+                control_bit = (i >> control_qubit) & 1
+                target_bit = (i >> target_qubit) & 1
+                
+                # For CZ: flip phase if both control and target are 1
+                if control_bit == 1 and target_bit == 1:
+                    new_state[i] -= state_vector[i]  # Phase flip
+                else:
+                    new_state[i] += state_vector[i]  # No change
         else:
             # General two-qubit gate implementation
             for i in range(len(state_vector)):
@@ -98,6 +112,64 @@ class QuantumGate:
                         
                         # Add contribution from the matrix element
                         new_state[new_i] += self.matrix[output_basis_state, input_basis_state] * state_vector[i]
+        
+        return new_state
+
+    def _apply_three_qubit_gate(self, state_vector: np.ndarray, control1_qubit: int, control2_qubit: int, target_qubit: int, n_qubits: int) -> np.ndarray:
+        """Apply a three-qubit gate to the state vector."""
+        new_state = np.zeros_like(state_vector)
+        
+        # Special handling for common three-qubit gates
+        if self.name == "Toffoli" or self.name == "CCX":
+            for i in range(len(state_vector)):
+                # Extract control and target qubit values
+                control1_bit = (i >> control1_qubit) & 1
+                control2_bit = (i >> control2_qubit) & 1
+                target_bit = (i >> target_qubit) & 1
+                
+                # For Toffoli: flip target if both controls are 1
+                if control1_bit == 1 and control2_bit == 1:
+                    # Flip the target qubit
+                    flipped_i = i ^ (1 << target_qubit)
+                    new_state[flipped_i] += state_vector[i]
+                else:
+                    # At least one control is 0, no change
+                    new_state[i] += state_vector[i]
+        elif self.name == "CCZ":
+            for i in range(len(state_vector)):
+                # Extract control and target qubit values
+                control1_bit = (i >> control1_qubit) & 1
+                control2_bit = (i >> control2_qubit) & 1
+                target_bit = (i >> target_qubit) & 1
+                
+                # For CCZ: flip phase if all three qubits are 1
+                if control1_bit == 1 and control2_bit == 1 and target_bit == 1:
+                    new_state[i] -= state_vector[i]  # Phase flip
+                else:
+                    new_state[i] += state_vector[i]  # No change
+        else:
+            # General three-qubit gate implementation (8x8 matrix)
+            for i in range(len(state_vector)):
+                # Extract all three qubit values
+                control1_bit = (i >> control1_qubit) & 1
+                control2_bit = (i >> control2_qubit) & 1
+                target_bit = (i >> target_qubit) & 1
+                
+                # Map to 3-qubit basis state
+                input_basis_state = (control1_bit << 2) | (control2_bit << 1) | target_bit
+                
+                # Apply the 8x8 matrix
+                for output_control1 in range(2):
+                    for output_control2 in range(2):
+                        for output_target in range(2):
+                            output_basis_state = (output_control1 << 2) | (output_control2 << 1) | output_target
+                            
+                            # Calculate the new state index
+                            new_i = (i ^ (control1_bit << control1_qubit) ^ (control2_bit << control2_qubit) ^ (target_bit << target_qubit) |
+                                   (output_control1 << control1_qubit) | (output_control2 << control2_qubit) | (output_target << target_qubit))
+                            
+                            # Add contribution from the matrix element
+                            new_state[new_i] += self.matrix[output_basis_state, input_basis_state] * state_vector[i]
         
         return new_state
 
@@ -180,6 +252,13 @@ CNOT_GATE = QuantumGate("CNOT", np.array([
     [0, 0, 1, 0]
 ], dtype=complex))
 
+CZ_GATE = QuantumGate("CZ", np.array([
+    [1, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, -1]
+], dtype=complex))
+
 # Controlled rotation gates for W state
 def controlled_RX(theta: float) -> QuantumGate:
     """
@@ -252,3 +331,29 @@ def controlled_RZ(theta: float) -> QuantumGate:
 
 # Specific controlled rotation for W state
 CRY_W = controlled_RY(W_STATE_ANGLE_2)
+
+# Three-qubit gates
+TOFFOLI_GATE = QuantumGate("Toffoli", np.array([
+    [1, 0, 0, 0, 0, 0, 0, 0],  # |000⟩ → |000⟩
+    [0, 1, 0, 0, 0, 0, 0, 0],  # |001⟩ → |001⟩
+    [0, 0, 1, 0, 0, 0, 0, 0],  # |010⟩ → |010⟩
+    [0, 0, 0, 1, 0, 0, 0, 0],  # |011⟩ → |011⟩
+    [0, 0, 0, 0, 1, 0, 0, 0],  # |100⟩ → |100⟩
+    [0, 0, 0, 0, 0, 1, 0, 0],  # |101⟩ → |101⟩
+    [0, 0, 0, 0, 0, 0, 0, 1],  # |110⟩ → |111⟩
+    [0, 0, 0, 0, 0, 0, 1, 0]   # |111⟩ → |110⟩
+], dtype=complex))
+
+# Alias for Toffoli
+CCX_GATE = TOFFOLI_GATE
+
+CCZ_GATE = QuantumGate("CCZ", np.array([
+    [1, 0, 0, 0, 0, 0, 0, 0],   # |000⟩ → |000⟩
+    [0, 1, 0, 0, 0, 0, 0, 0],   # |001⟩ → |001⟩
+    [0, 0, 1, 0, 0, 0, 0, 0],   # |010⟩ → |010⟩
+    [0, 0, 0, 1, 0, 0, 0, 0],   # |011⟩ → |011⟩
+    [0, 0, 0, 0, 1, 0, 0, 0],   # |100⟩ → |100⟩
+    [0, 0, 0, 0, 0, 1, 0, 0],   # |101⟩ → |101⟩
+    [0, 0, 0, 0, 0, 0, 1, 0],   # |110⟩ → |110⟩
+    [0, 0, 0, 0, 0, 0, 0, -1]   # |111⟩ → -|111⟩
+], dtype=complex))

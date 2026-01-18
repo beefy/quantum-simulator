@@ -85,9 +85,11 @@ nav:
         - RZ Gate: math/gates/rz_gate.md
       - Multi-Qubit Gates:
         - CNOT Gate: math/gates/cnot_gate.md
+        - CZ Gate: math/gates/cz_gate.md
         - Controlled RX Gate: math/gates/crx_gate.md
         - Controlled RY Gate: math/gates/cry_gate.md
         - Controlled RZ Gate: math/gates/crz_gate.md
+        - Toffoli Gate: math/gates/toffoli_gate.md
     - Circuits:
       - Circuit Representation: math/circuits/representation.md
       - Circuit Examples: math/circuits/examples.md

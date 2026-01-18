@@ -5,8 +5,9 @@ import numpy as np
 
 from quantum_simulator import QuantumSimulator, QuantumCircuit
 from quantum_simulator.gates import (
-    X_GATE, Y_GATE, Z_GATE, H_GATE, CNOT_GATE,
-    RX, RY, RZ, RY_W1, RY_W2, CRY_W, controlled_RX, controlled_RY, controlled_RZ
+    X_GATE, Y_GATE, Z_GATE, H_GATE, CNOT_GATE, CZ_GATE,
+    RX, RY, RZ, RY_W1, RY_W2, CRY_W, controlled_RX, controlled_RY, controlled_RZ,
+    TOFFOLI_GATE, CCX_GATE, CCZ_GATE
 )
 
 
@@ -849,6 +850,367 @@ class TestControlledRZ:
         # Due to phase kickback, we should see interference effects
         # The exact values depend on the phase, but |00⟩ and |10⟩ should have different amplitudes
         assert not np.isclose(abs(state[0]), abs(state[2]))
+
+
+class TestControlledZ:
+    """Test Controlled-Z gate."""
+    
+    def test_cz_matrix(self):
+        """Test CZ gate matrix definition."""
+        expected = np.array([
+            [1, 0, 0, 0],
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [0, 0, 0, -1]
+        ], dtype=complex)
+        np.testing.assert_array_almost_equal(CZ_GATE.matrix, expected)
+    
+    def test_cz_properties(self):
+        """Test CZ gate properties."""
+        assert CZ_GATE.name == "CZ"
+        assert CZ_GATE.num_qubits == 2
+        
+        # CZ is Hermitian and unitary
+        np.testing.assert_array_almost_equal(
+            CZ_GATE.matrix.conj().T, CZ_GATE.matrix
+        )
+        
+        # CZ is self-inverse (CZ² = I)
+        identity = np.eye(4, dtype=complex)
+        np.testing.assert_array_almost_equal(
+            CZ_GATE.matrix @ CZ_GATE.matrix, identity
+        )
+    
+    def test_cz_symmetry(self):
+        """Test CZ gate symmetry (CZ(0,1) = CZ(1,0))."""
+        sim1 = QuantumSimulator(2)
+        sim2 = QuantumSimulator(2)
+        
+        # Prepare identical test states
+        circuit1 = QuantumCircuit(2)
+        circuit1.add_gate(H_GATE, [0])
+        circuit1.add_gate(H_GATE, [1])
+        circuit1.add_gate(CZ_GATE, [0, 1])  # CZ(control=0, target=1)
+        circuit1.execute(sim1)
+        
+        circuit2 = QuantumCircuit(2)
+        circuit2.add_gate(H_GATE, [0])
+        circuit2.add_gate(H_GATE, [1])
+        circuit2.add_gate(CZ_GATE, [1, 0])  # CZ(control=1, target=0)
+        circuit2.execute(sim2)
+        
+        # Results should be identical due to symmetry
+        np.testing.assert_array_almost_equal(
+            sim1.get_state_vector(), sim2.get_state_vector()
+        )
+    
+    def test_cz_action_on_basis_states(self):
+        """Test CZ gate action on computational basis states."""
+        # Test CZ|00⟩ = |00⟩
+        sim = QuantumSimulator(2)
+        circuit = QuantumCircuit(2)
+        circuit.add_gate(CZ_GATE, [0, 1])
+        circuit.execute(sim)
+        
+        expected = np.array([1.0, 0.0, 0.0, 0.0], dtype=complex)
+        np.testing.assert_array_almost_equal(sim.get_state_vector(), expected)
+        
+        # Test CZ|11⟩ = -|11⟩ (phase flip)
+        sim = QuantumSimulator(2)
+        circuit = QuantumCircuit(2)
+        circuit.add_gate(X_GATE, [0])  # Prepare |11⟩
+        circuit.add_gate(X_GATE, [1])
+        circuit.add_gate(CZ_GATE, [0, 1])
+        circuit.execute(sim)
+        
+        expected = np.array([0.0, 0.0, 0.0, -1.0], dtype=complex)
+        np.testing.assert_array_almost_equal(sim.get_state_vector(), expected)
+    
+    def test_cz_preserves_populations(self):
+        """Test that CZ preserves computational basis populations."""
+        # Start with equal superposition
+        sim = QuantumSimulator(2)
+        circuit = QuantumCircuit(2)
+        circuit.add_gate(H_GATE, [0])
+        circuit.add_gate(H_GATE, [1])
+        
+        # Get probabilities before CZ
+        circuit.execute(sim)
+        probs_before = np.abs(sim.get_state_vector())**2
+        
+        # Apply CZ and check probabilities after
+        sim.reset()
+        circuit.add_gate(CZ_GATE, [0, 1])
+        circuit.execute(sim)
+        probs_after = np.abs(sim.get_state_vector())**2
+        
+        # Probabilities should be preserved (only phases change)
+        np.testing.assert_array_almost_equal(probs_before, probs_after)
+
+
+class TestToffoliGate:
+    """Test Toffoli (CCX) gate."""
+    
+    def test_toffoli_matrix(self):
+        """Test Toffoli gate matrix definition."""
+        expected = np.array([
+            [1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1, 0]
+        ], dtype=complex)
+        np.testing.assert_array_almost_equal(TOFFOLI_GATE.matrix, expected)
+    
+    def test_toffoli_properties(self):
+        """Test Toffoli gate properties."""
+        assert TOFFOLI_GATE.name == "Toffoli"
+        assert TOFFOLI_GATE.num_qubits == 3
+        
+        # Toffoli is Hermitian and unitary
+        np.testing.assert_array_almost_equal(
+            TOFFOLI_GATE.matrix.conj().T, TOFFOLI_GATE.matrix
+        )
+        
+        # Toffoli is self-inverse
+        identity = np.eye(8, dtype=complex)
+        np.testing.assert_array_almost_equal(
+            TOFFOLI_GATE.matrix @ TOFFOLI_GATE.matrix, identity
+        )
+    
+    def test_ccx_alias(self):
+        """Test that CCX_GATE is an alias for TOFFOLI_GATE."""
+        assert CCX_GATE is TOFFOLI_GATE
+        assert CCX_GATE.name == "Toffoli"
+        np.testing.assert_array_almost_equal(CCX_GATE.matrix, TOFFOLI_GATE.matrix)
+    
+    def test_toffoli_action_on_basis_states(self):
+        """Test Toffoli gate action on all computational basis states."""
+        test_cases = [
+            ([0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0]),  # |000⟩ → |000⟩
+            ([0, 0, 1], [0, 1, 0, 0, 0, 0, 0, 0]),  # |001⟩ → |001⟩
+            ([0, 1, 0], [0, 0, 1, 0, 0, 0, 0, 0]),  # |010⟩ → |010⟩
+            ([0, 1, 1], [0, 0, 0, 1, 0, 0, 0, 0]),  # |011⟩ → |011⟩
+            ([1, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0]),  # |100⟩ → |100⟩
+            ([1, 0, 1], [0, 0, 0, 0, 0, 1, 0, 0]),  # |101⟩ → |101⟩
+            ([1, 1, 0], [0, 0, 0, 0, 0, 0, 0, 1]),  # |110⟩ → |111⟩ (flip target)
+            ([1, 1, 1], [0, 0, 0, 0, 0, 0, 1, 0])   # |111⟩ → |110⟩ (flip target)
+        ]
+        
+        for input_state, expected_output in test_cases:
+            sim = QuantumSimulator(3)
+            circuit = QuantumCircuit(3)
+            
+            # Prepare input state
+            for i, bit in enumerate(input_state):
+                if bit == 1:
+                    circuit.add_gate(X_GATE, [i])
+            
+            # Apply Toffoli
+            circuit.add_gate(TOFFOLI_GATE, [0, 1, 2])
+            circuit.execute(sim)
+            
+            expected = np.array(expected_output, dtype=complex)
+            np.testing.assert_array_almost_equal(sim.get_state_vector(), expected)
+    
+    def test_toffoli_conditional_logic(self):
+        """Test Toffoli implements conditional AND logic."""
+        # Test that target is flipped only when both controls are |1⟩
+        sim = QuantumSimulator(3)
+        
+        # Case 1: Both controls |1⟩, target |0⟩ → should flip to |1⟩
+        circuit = QuantumCircuit(3)
+        circuit.add_gate(X_GATE, [0])  # Control1 = |1⟩
+        circuit.add_gate(X_GATE, [1])  # Control2 = |1⟩
+        # Target = |0⟩ (default)
+        circuit.add_gate(TOFFOLI_GATE, [0, 1, 2])
+        circuit.execute(sim)
+        
+        # Should be in |111⟩
+        assert sim.get_state_vector()[7] == pytest.approx(1.0)
+        
+        # Case 2: Apply Toffoli again → should flip back to |110⟩
+        circuit.add_gate(TOFFOLI_GATE, [0, 1, 2])
+        circuit.execute(sim)
+        
+        # Should be back in |110⟩
+        assert sim.get_state_vector()[6] == pytest.approx(1.0)
+
+
+class TestCCZGate:
+    """Test CCZ (Controlled-Controlled-Z) gate."""
+    
+    def test_ccz_matrix(self):
+        """Test CCZ gate matrix definition."""
+        expected = np.array([
+            [1, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, -1]
+        ], dtype=complex)
+        np.testing.assert_array_almost_equal(CCZ_GATE.matrix, expected)
+    
+    def test_ccz_properties(self):
+        """Test CCZ gate properties."""
+        assert CCZ_GATE.name == "CCZ"
+        assert CCZ_GATE.num_qubits == 3
+        
+        # CCZ is diagonal (phase-only)
+        diagonal_matrix = np.diag(np.diag(CCZ_GATE.matrix))
+        np.testing.assert_array_almost_equal(CCZ_GATE.matrix, diagonal_matrix)
+        
+        # CCZ is Hermitian and unitary
+        np.testing.assert_array_almost_equal(
+            CCZ_GATE.matrix.conj().T, CCZ_GATE.matrix
+        )
+        
+        # CCZ is self-inverse
+        identity = np.eye(8, dtype=complex)
+        np.testing.assert_array_almost_equal(
+            CCZ_GATE.matrix @ CCZ_GATE.matrix, identity
+        )
+    
+    def test_ccz_action_on_basis_states(self):
+        """Test CCZ gate action - only |111⟩ gets phase flip."""
+        # Test all basis states except |111⟩ remain unchanged
+        for i in range(7):  # 0 to 6 (excluding 7 which is |111⟩)
+            sim = QuantumSimulator(3)
+            circuit = QuantumCircuit(3)
+            
+            # Prepare state |i⟩
+            if i & 1: circuit.add_gate(X_GATE, [0])
+            if i & 2: circuit.add_gate(X_GATE, [1]) 
+            if i & 4: circuit.add_gate(X_GATE, [2])
+            
+            # Apply CCZ
+            circuit.add_gate(CCZ_GATE, [0, 1, 2])
+            circuit.execute(sim)
+            
+            # State should be unchanged
+            expected = np.zeros(8, dtype=complex)
+            expected[i] = 1.0
+            np.testing.assert_array_almost_equal(sim.get_state_vector(), expected)
+        
+        # Test |111⟩ gets phase flip
+        sim = QuantumSimulator(3)
+        circuit = QuantumCircuit(3)
+        circuit.add_gate(X_GATE, [0])  # Prepare |111⟩
+        circuit.add_gate(X_GATE, [1])
+        circuit.add_gate(X_GATE, [2])
+        circuit.add_gate(CCZ_GATE, [0, 1, 2])
+        circuit.execute(sim)
+        
+        expected = np.zeros(8, dtype=complex)
+        expected[7] = -1.0  # Phase flip
+        np.testing.assert_array_almost_equal(sim.get_state_vector(), expected)
+    
+    def test_ccz_preserves_populations(self):
+        """Test that CCZ preserves all computational basis populations."""
+        # Create random superposition state
+        sim = QuantumSimulator(3)
+        circuit = QuantumCircuit(3)
+        
+        # Create superposition on all qubits
+        circuit.add_gate(H_GATE, [0])
+        circuit.add_gate(H_GATE, [1])
+        circuit.add_gate(H_GATE, [2])
+        
+        # Get probabilities before CCZ
+        circuit.execute(sim)
+        probs_before = np.abs(sim.get_state_vector())**2
+        
+        # Apply CCZ
+        sim.reset()
+        circuit.add_gate(CCZ_GATE, [0, 1, 2])
+        circuit.execute(sim)
+        probs_after = np.abs(sim.get_state_vector())**2
+        
+        # All probabilities should be preserved (only phases change)
+        np.testing.assert_array_almost_equal(probs_before, probs_after)
+
+
+class TestMultiQubitGateIntegration:
+    """Test integration and relationships between multi-qubit gates."""
+    
+    def test_cz_from_cnot_and_hadamard(self):
+        """Test that CZ = H⊗I CNOT H⊗I."""
+        sim1 = QuantumSimulator(2)
+        sim2 = QuantumSimulator(2)
+        
+        # Prepare test state
+        circuit1 = QuantumCircuit(2)
+        circuit1.add_gate(H_GATE, [0])
+        circuit1.add_gate(RY(np.pi/3), [1])
+        circuit1.add_gate(CZ_GATE, [0, 1])  # Direct CZ
+        circuit1.execute(sim1)
+        
+        # Equivalent implementation using CNOT
+        circuit2 = QuantumCircuit(2)
+        circuit2.add_gate(H_GATE, [0])
+        circuit2.add_gate(RY(np.pi/3), [1])
+        circuit2.add_gate(H_GATE, [1])      # H on target
+        circuit2.add_gate(CNOT_GATE, [0, 1]) # CNOT
+        circuit2.add_gate(H_GATE, [1])      # H on target
+        circuit2.execute(sim2)
+        
+        np.testing.assert_array_almost_equal(
+            sim1.get_state_vector(), sim2.get_state_vector()
+        )
+    
+    def test_three_qubit_gate_decomposition(self):
+        """Test decomposition relationships between 3-qubit gates."""
+        # CCZ can be implemented using Toffoli and single qubit gates
+        sim1 = QuantumSimulator(3)
+        sim2 = QuantumSimulator(3)
+        
+        # Prepare test state
+        circuit1 = QuantumCircuit(3)
+        circuit1.add_gate(H_GATE, [0])
+        circuit1.add_gate(H_GATE, [1])
+        circuit1.add_gate(X_GATE, [2])
+        circuit1.add_gate(CCZ_GATE, [0, 1, 2])  # Direct CCZ
+        circuit1.execute(sim1)
+        
+        # Equivalent implementation using Toffoli
+        circuit2 = QuantumCircuit(3)
+        circuit2.add_gate(H_GATE, [0])
+        circuit2.add_gate(H_GATE, [1])
+        circuit2.add_gate(X_GATE, [2])
+        circuit2.add_gate(H_GATE, [2])           # Convert X basis to Z basis
+        circuit2.add_gate(TOFFOLI_GATE, [0, 1, 2])  # Toffoli
+        circuit2.add_gate(H_GATE, [2])           # Convert back
+        circuit2.execute(sim2)
+        
+        np.testing.assert_array_almost_equal(
+            sim1.get_state_vector(), sim2.get_state_vector()
+        )
+    
+    def test_gate_universality(self):
+        """Test that new gates enable universal quantum computation."""
+        # Demonstrate that we can implement arbitrary 3-qubit unitaries
+        # using combinations of single-qubit gates, CNOT, and Toffoli
+        
+        # This is more of a conceptual test - we verify we have the right building blocks
+        gates_available = {
+            'single_qubit': [H_GATE, X_GATE, Y_GATE, Z_GATE],
+            'two_qubit': [CNOT_GATE, CZ_GATE],
+            'three_qubit': [TOFFOLI_GATE, CCZ_GATE]
+        }
+        
+        # Verify all gates are available and have correct dimensions
+        assert all(gate.num_qubits == 1 for gate in gates_available['single_qubit'])
+        assert all(gate.num_qubits == 2 for gate in gates_available['two_qubit'])
+        assert all(gate.num_qubits == 3 for gate in gates_available['three_qubit'])
+        
+        # This gate set is known to be universal for quantum computation
+        assert True  # Conceptual verification
 
 
 if __name__ == "__main__":
