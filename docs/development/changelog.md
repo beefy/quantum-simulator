@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.6] - 2026-01-09
+## [0.1.7](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.7) - 2026-01-18
+
+### Added
+- RX gate
+- CRX gate
+- CRZ gate
+- CZ gate
+- Toffoli gate
+- Grover's algorithm example
+- Additional testing
+
+## [0.1.6](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.6) - 2026-01-09
 
 ### Added
 - RY gate
@@ -14,29 +25,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - W state 3 qubit example
 - GHZ 3 qubit example
 
-## [0.1.5] - 2026-01-01
+## [0.1.5](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.5) - 2026-01-01
 
 ### Added
 - Documentation fixes
 
-## [0.1.4] - 2025-12-16
+## [0.1.4](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.4) - 2025-12-16
 
 ### Added
 - Fix broken links in documentation
 - Added initial math overview documentation
 
-## [0.1.3] - 2025-12-16
+## [0.1.3](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.3) - 2025-12-16
 
 ### Added
 - Fix documentation references
 
-## [0.1.2] - 2025-12-16
+## [0.1.2](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.2) - 2025-12-16
 
 ### Added
 - Fix documentation
 - Fix docs github action
 
-## [0.1.1] - 2025-12-16
+## [0.1.1](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.1) - 2025-12-16
 
 ### Added
 - Fix dimension mismatch bug
@@ -46,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix tests
 - Fix linting
 
-## [0.1.0] - 2025-12-16
+## [0.1.0](https://github.com/beefy/quantum-simulator/releases/tag/v0.1.0) - 2025-12-16
 
 ### Added
 - Initial release
