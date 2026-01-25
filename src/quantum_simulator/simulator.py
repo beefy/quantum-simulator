@@ -3,7 +3,10 @@ Quantum simulator implementation.
 """
 
 import numpy as np
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .circuits import QuantumCircuit
 
 
 class QuantumSimulator:
@@ -63,7 +66,7 @@ class QuantumSimulator:
         
         return result
     
-    def execute_circuit(self, circuit) -> None:
+    def execute_circuit(self, circuit: 'QuantumCircuit') -> None:
         """
         Execute a quantum circuit on this simulator.
         

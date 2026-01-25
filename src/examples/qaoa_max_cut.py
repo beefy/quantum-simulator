@@ -29,7 +29,7 @@ from quantum_simulator.gates import H_GATE, RX, RZ, CNOT_GATE, RZZ
 import numpy as np
 from typing import List, Tuple, Dict
 import itertools
-from scipy.optimize import minimize
+from scipy.optimize import minimize  # type: ignore
 
 
 class QAOAMaxCut:
@@ -189,10 +189,10 @@ class QAOAMaxCut:
         Returns:
             Tuple of (optimal_gammas, optimal_betas, best_expectation_value)
         """
-        def objective(params):
+        def objective(params: np.ndarray) -> float:
             """Objective function to minimize (negative expectation value)."""
-            gammas = params[:p]
-            betas = params[p:]
+            gammas = params[:p].tolist()
+            betas = params[p:].tolist()
             return -self.compute_expectation_value(gammas, betas, num_shots)
         
         # Initialize parameters randomly
@@ -226,7 +226,7 @@ class QAOAMaxCut:
             Dict mapping bitstrings to their frequency
         """
         circuit = self.create_qaoa_circuit(gammas, betas)
-        solution_counts = {}
+        solution_counts: Dict[str, int] = {}
         
         for shot in range(num_shots):
             sim = QuantumSimulator(self.n_qubits)
