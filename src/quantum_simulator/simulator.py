@@ -62,3 +62,12 @@ class QuantumSimulator:
             self.state_vector = new_state / np.sqrt(norm)
         
         return result
+    
+    def execute_circuit(self, circuit) -> None:
+        """
+        Execute a quantum circuit on this simulator.
+        
+        Args:
+            circuit: QuantumCircuit to execute
+        """
+        circuit.execute(self)
