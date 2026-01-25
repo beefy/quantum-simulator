@@ -370,3 +370,49 @@ CCZ_GATE = QuantumGate("CCZ", np.array([
     [0, 0, 0, 0, 0, 0, 1, 0],   # |110⟩ → |110⟩
     [0, 0, 0, 0, 0, 0, 0, -1]   # |111⟩ → -|111⟩
 ], dtype=complex))
+
+
+# Additional gates for QAOA (Quantum Approximate Optimization Algorithm)
+
+def RZZ(theta: float) -> QuantumGate:
+    """
+    Create a two-qubit RZZ rotation gate for angle theta.
+    This gate is commonly used in QAOA cost Hamiltonians.
+    RZZ(θ) = exp(-iθ/2 * Z⊗Z)
+    
+    Args:
+        theta: Rotation angle in radians
+        
+    Returns:
+        QuantumGate: Two-qubit RZZ gate
+    """
+    exp_neg = np.exp(-1j * theta / 2)
+    exp_pos = np.exp(1j * theta / 2)
+    
+    matrix = np.array([
+        [exp_neg, 0, 0, 0],         # |00⟩ → e^(-iθ/2)|00⟩
+        [0, exp_pos, 0, 0],         # |01⟩ → e^(iθ/2)|01⟩  
+        [0, 0, exp_pos, 0],         # |10⟩ → e^(iθ/2)|10⟩
+        [0, 0, 0, exp_neg]          # |11⟩ → e^(-iθ/2)|11⟩
+    ], dtype=complex)
+    
+    return QuantumGate(f"RZZ({theta:.3f})", matrix)
+
+
+def phase_gate(phi: float) -> QuantumGate:
+    """
+    Create a single-qubit phase gate with phase phi.
+    This applies a phase e^(i*phi) to the |1⟩ state.
+    
+    Args:
+        phi: Phase angle in radians
+        
+    Returns:
+        QuantumGate: Single-qubit phase gate
+    """
+    matrix = np.array([
+        [1, 0],
+        [0, np.exp(1j * phi)]
+    ], dtype=complex)
+    
+    return QuantumGate(f"Phase({phi:.3f})", matrix)
